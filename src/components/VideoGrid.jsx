@@ -2,7 +2,7 @@ import VideoCard from './VideoCard';
 
 export default function VideoGrid({ videos, loading }) {
   if (loading) return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3">
       {Array(12).fill(0).map((_, i) => (
         <div key={i}>
           <div className="skeleton aspect-video w-full mb-2" />
@@ -14,7 +14,7 @@ export default function VideoGrid({ videos, loading }) {
   );
   if (!videos?.length) return <p className="text-gray-500 text-center py-20">No videos found.</p>;
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3">
       {videos.map(v => <VideoCard key={v.id} video={v} />)}
     </div>
   );

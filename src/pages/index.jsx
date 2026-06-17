@@ -25,26 +25,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-6 flex gap-6">
-        <div className="flex-1 min-w-0">
+      <main className="w-full px-2 sm:px-4 py-6">
+        <div className="w-full">
           <AdSlot type="banner" />
           <h1 className="text-xl font-bold text-white mb-4">🔥 Featured Videos</h1>
           <VideoGrid videos={videos} loading={loading} />
           <div className="mt-8">
             <h2 className="text-lg font-bold text-white mb-4">Browse by Category</h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
               {CATEGORIES.map(c => (
                 <a key={c.slug} href={`/category/${c.slug}`}
-                  className="bg-[#141414] hover:bg-[#cc0000] border border-[#222] rounded-lg p-3 text-center text-sm font-semibold text-gray-300 hover:text-white transition">
+                  className="bg-[#141414] hover:bg-[#cc0000] border border-[#222] rounded-lg p-3 text-center text-xs sm:text-sm font-semibold text-gray-300 hover:text-white transition">
                   {c.label}
                 </a>
               ))}
             </div>
           </div>
         </div>
-        <aside className="w-64 shrink-0 hidden lg:block">
-          <CPASidebar />
-        </aside>
       </main>
       <Footer />
     </>

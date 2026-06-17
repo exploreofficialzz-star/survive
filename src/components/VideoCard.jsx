@@ -13,8 +13,8 @@ export default function VideoCard({ video }) {
         <span className="absolute top-1 left-1 bg-[#cc0000] text-white text-xs px-1.5 rounded font-semibold">{video.platform}</span>
       </div>
       <div className="p-2">
-        <p className="text-white text-sm font-medium line-clamp-2 leading-snug">{video.title}</p>
-        <p className="text-gray-500 text-xs mt-1">{formatViews(video.views)} views · {timeAgo(video.publishedAt)}</p>
+        <p className="text-white text-xs sm:text-sm font-medium line-clamp-2 leading-tight">{video.title}</p>
+        <p className="text-gray-500 text-xs mt-1">{formatViews(video.views)} · {timeAgo(video.publishedAt)}</p>
       </div>
     </Link>
   );
