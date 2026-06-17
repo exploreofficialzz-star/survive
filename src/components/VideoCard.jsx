@@ -1,10 +1,13 @@
-import Link from 'next/link';
 import { formatViews, formatDuration, timeAgo } from '../lib/utils';
 
 export default function VideoCard({ video }) {
-  const url = `/watch?id=${video.id}&title=${encodeURIComponent(video.title)}&embed=${encodeURIComponent(video.embedUrl)}&platform=${video.platform}`;
+  const handleClick = (e) => {
+    e.preventDefault();
+    window.open(video.externalUrl, '_blank');
+  };
+
   return (
-    <Link href={url} className="video-card block bg-[#141414] rounded-lg overflow-hidden hover:ring-1 hover:ring-[#cc0000] transition">
+    <a href={video.externalUrl} target="_blank" rel="noopener noreferrer" onClick={handleClick} className="video-card block bg-[#141414] rounded-lg overflow-hidden hover:ring-1 hover:ring-[#cc0000] transition cursor-pointer">
       <div className="relative overflow-hidden aspect-video bg-black">
         <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" loading="lazy" />
         {video.duration > 0 && (
@@ -16,6 +19,6 @@ export default function VideoCard({ video }) {
         <p className="text-white text-xs sm:text-sm font-medium line-clamp-2 leading-tight">{video.title}</p>
         <p className="text-gray-500 text-xs mt-1">{formatViews(video.views)} · {timeAgo(video.publishedAt)}</p>
       </div>
-    </Link>
+    </a>
   );
 }
