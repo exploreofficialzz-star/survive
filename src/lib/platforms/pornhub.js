@@ -1,11 +1,13 @@
 import axios from 'axios';
 
+import axios from 'axios';
+
 const MOCK_VIDEOS = [
   {
     id: 'mock_1',
     title: 'Popular Video 1',
-    thumbnail: 'https://dummyimage.com/320x180/1a1a1a/ffffff?text=Video+1',
-    externalUrl: 'https://www.pornhub.com',
+    thumbnail: 'https://picsum.photos/320/180?random=1',
+    externalUrl: 'https://www.pornhub.com/view_video.php?viewkey=ph56a1eb4e69f90',
     platform: 'Pornhub',
     views: 1500000,
     publishedAt: new Date(Date.now() - 7*24*60*60*1000).toISOString(),
@@ -14,8 +16,8 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_2',
     title: 'Trending Video 2',
-    thumbnail: 'https://dummyimage.com/320x180/1a1a1a/ffffff?text=Video+2',
-    externalUrl: 'https://www.xvideos.com',
+    thumbnail: 'https://picsum.photos/320/180?random=2',
+    externalUrl: 'https://www.xvideos.com/video69177309/hot_video',
     platform: 'XVideos',
     views: 2100000,
     publishedAt: new Date(Date.now() - 3*24*60*60*1000).toISOString(),
@@ -24,8 +26,8 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_3',
     title: 'Hot Video 3',
-    thumbnail: 'https://dummyimage.com/320x180/1a1a1a/ffffff?text=Video+3',
-    externalUrl: 'https://www.redtube.com',
+    thumbnail: 'https://picsum.photos/320/180?random=3',
+    externalUrl: 'https://www.redtube.com/43624751',
     platform: 'Redtube',
     views: 980000,
     publishedAt: new Date(Date.now() - 1*24*60*60*1000).toISOString(),
@@ -34,8 +36,8 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_4',
     title: 'New Release 4',
-    thumbnail: 'https://dummyimage.com/320x180/1a1a1a/ffffff?text=Video+4',
-    externalUrl: 'https://www.youporn.com',
+    thumbnail: 'https://picsum.photos/320/180?random=4',
+    externalUrl: 'https://www.youporn.com/watch/12345678/new_release/',
     platform: 'YouPorn',
     views: 1200000,
     publishedAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
@@ -44,8 +46,8 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_5',
     title: 'Featured Video 5',
-    thumbnail: 'https://dummyimage.com/320x180/1a1a1a/ffffff?text=Video+5',
-    externalUrl: 'https://spankbang.com',
+    thumbnail: 'https://picsum.photos/320/180?random=5',
+    externalUrl: 'https://spankbang.com/5m96b3/play/hot+video/480p',
     platform: 'SpankBang',
     views: 750000,
     publishedAt: new Date(Date.now() - 5*24*60*60*1000).toISOString(),
@@ -54,12 +56,32 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_6',
     title: 'Best Video 6',
-    thumbnail: 'https://dummyimage.com/320x180/1a1a1a/ffffff?text=Video+6',
-    externalUrl: 'https://www.pornhub.com',
+    thumbnail: 'https://picsum.photos/320/180?random=6',
+    externalUrl: 'https://www.pornhub.com/view_video.php?viewkey=ph5e3a1b2c4d5e6f',
     platform: 'Pornhub',
     views: 1800000,
     publishedAt: new Date(Date.now() - 4*24*60*60*1000).toISOString(),
     duration: 2000,
+  },
+  {
+    id: 'mock_7',
+    title: 'Amazing Video 7',
+    thumbnail: 'https://picsum.photos/320/180?random=7',
+    externalUrl: 'https://www.redtube.com/38574923',
+    platform: 'Redtube',
+    views: 1100000,
+    publishedAt: new Date(Date.now() - 6*24*60*60*1000).toISOString(),
+    duration: 1450,
+  },
+  {
+    id: 'mock_8',
+    title: 'Exclusive Video 8',
+    thumbnail: 'https://picsum.photos/320/180?random=8',
+    externalUrl: 'https://www.xvideos.com/video61829755/exclusive_content',
+    platform: 'XVideos',
+    views: 950000,
+    publishedAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
+    duration: 1650,
   },
 ];
 

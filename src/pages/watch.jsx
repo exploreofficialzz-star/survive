@@ -20,16 +20,15 @@ export default function Watch() {
         <div className="w-full">
           <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4">
             {externalUrl ? (
-              <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a] border border-[#1f1f1f]">
-                <a 
-                  href={externalUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-[#cc0000] hover:bg-[#aa0000] text-white px-8 py-4 rounded-lg font-bold text-lg transition"
-                >
-                  Open Video on {platform}
-                </a>
-              </div>
+              <iframe
+                src={externalUrl}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allowFullScreen
+                allow="autoplay; fullscreen"
+                style={{ border: 'none' }}
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500">
                 Video URL not available
@@ -41,10 +40,10 @@ export default function Watch() {
           <AdSlot type="banner" />
           <div className="bg-[#141414] border border-[#222] rounded-lg p-4 mt-4 text-xs sm:text-sm text-gray-400">
             <p className="mb-2">
-              ℹ️ This video is hosted on <strong>{platform}</strong>. Click the button above to watch it on their official site.
+              ℹ️ This video is hosted on <strong>{platform}</strong>. You are viewing it through {SITE_NAME}.
             </p>
             <p>
-              {SITE_NAME} does not host this content. We provide search and discovery for videos across multiple platforms.
+              All content, monetization, and ads belong to {platform}. {SITE_NAME} is a video discovery platform.
             </p>
           </div>
         </div>
