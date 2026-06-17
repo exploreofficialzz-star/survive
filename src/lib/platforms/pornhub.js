@@ -4,7 +4,7 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_1',
     title: 'Popular Video 1',
-    thumbnail: 'https://via.placeholder.com/320x180?text=Video+1',
+    thumbnail: 'https://img-hw.xvideos.com/videos/thumbs169ll/12/34/56/123456789_180.jpg',
     externalUrl: 'https://www.pornhub.com',
     platform: 'Pornhub',
     views: 1500000,
@@ -14,7 +14,7 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_2',
     title: 'Trending Video 2',
-    thumbnail: 'https://via.placeholder.com/320x180?text=Video+2',
+    thumbnail: 'https://img-hw.xvideos.com/videos/thumbs169ll/98/76/54/987654321_180.jpg',
     externalUrl: 'https://www.xvideos.com',
     platform: 'XVideos',
     views: 2100000,
@@ -24,7 +24,7 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_3',
     title: 'Hot Video 3',
-    thumbnail: 'https://via.placeholder.com/320x180?text=Video+3',
+    thumbnail: 'https://img-hw.xvideos.com/videos/thumbs169ll/45/67/89/456789012_180.jpg',
     externalUrl: 'https://www.redtube.com',
     platform: 'Redtube',
     views: 980000,
@@ -34,7 +34,7 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_4',
     title: 'New Release 4',
-    thumbnail: 'https://via.placeholder.com/320x180?text=Video+4',
+    thumbnail: 'https://img-hw.xvideos.com/videos/thumbs169ll/78/90/12/789012345_180.jpg',
     externalUrl: 'https://www.youporn.com',
     platform: 'YouPorn',
     views: 1200000,
@@ -44,7 +44,7 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_5',
     title: 'Featured Video 5',
-    thumbnail: 'https://via.placeholder.com/320x180?text=Video+5',
+    thumbnail: 'https://img-hw.xvideos.com/videos/thumbs169ll/34/56/78/345678901_180.jpg',
     externalUrl: 'https://spankbang.com',
     platform: 'SpankBang',
     views: 750000,
@@ -54,7 +54,7 @@ const MOCK_VIDEOS = [
   {
     id: 'mock_6',
     title: 'Best Video 6',
-    thumbnail: 'https://via.placeholder.com/320x180?text=Video+6',
+    thumbnail: 'https://img-hw.xvideos.com/videos/thumbs169ll/67/89/01/678901234_180.jpg',
     externalUrl: 'https://www.pornhub.com',
     platform: 'Pornhub',
     views: 1800000,

@@ -5,7 +5,6 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import VideoGrid from '../../components/VideoGrid';
 import AdSlot from '../../components/AdSlot';
-import CPASidebar from '../../components/CPASidebar';
 import { fetchVideos } from '../../lib/platforms';
 import { CATEGORIES, SITE_NAME } from '../../lib/constants';
 
@@ -29,13 +28,12 @@ export default function CategoryPage() {
         <meta name="description" content={`Watch free ${cat?.label} videos on ${SITE_NAME}. HD quality, updated daily.`} />
       </Head>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-6 flex gap-6">
-        <div className="flex-1 min-w-0">
+      <main className="w-full px-2 sm:px-4 py-6">
+        <div className="w-full">
           <AdSlot type="banner" />
           <h1 className="text-2xl font-bold text-white mb-4">{cat?.label} Videos</h1>
           <VideoGrid videos={videos} loading={loading} />
         </div>
-        <aside className="w-64 shrink-0 hidden lg:block"><CPASidebar /></aside>
       </main>
       <Footer />
     </>

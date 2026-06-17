@@ -23,7 +23,7 @@ export default function Search() {
     <>
       <Head><title>Search: {q} — {SITE_NAME}</title></Head>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="w-full px-2 sm:px-4 py-6">
         <h1 className="text-xl font-bold text-white mb-4">Results for: <span className="text-[#cc0000]">"{q}"</span></h1>
         <VideoGrid videos={videos} loading={loading} />
       </main>

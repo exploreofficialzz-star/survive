@@ -10,13 +10,13 @@ export default function Trending() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchVideos('trending adult videos 2025').then(v => { setVideos(v); setLoading(false); });
+    fetchVideos('hot').then(v => { setVideos(v); setLoading(false); });
   }, []);
   return (
     <>
       <Head><title>Trending — {SITE_NAME}</title></Head>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="w-full px-2 sm:px-4 py-6">
         <h1 className="text-2xl font-bold text-white mb-4">🔥 Trending Now</h1>
         <VideoGrid videos={videos} loading={loading} />
       </main>
