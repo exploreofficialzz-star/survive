@@ -1,89 +1,6 @@
 import axios from 'axios';
 
-const MOCK_VIDEOS = [
-  {
-    id: 'mock_1',
-    title: 'Popular Video 1',
-    thumbnail: 'https://picsum.photos/320/180?random=1',
-    externalUrl: 'https://www.pornhub.com/view_video.php?viewkey=ph56a1eb4e69f90',
-    platform: 'Pornhub',
-    views: 1500000,
-    publishedAt: new Date(Date.now() - 7*24*60*60*1000).toISOString(),
-    duration: 1200,
-  },
-  {
-    id: 'mock_2',
-    title: 'Trending Video 2',
-    thumbnail: 'https://picsum.photos/320/180?random=2',
-    externalUrl: 'https://www.xvideos.com/video69177309/hot_video',
-    platform: 'XVideos',
-    views: 2100000,
-    publishedAt: new Date(Date.now() - 3*24*60*60*1000).toISOString(),
-    duration: 1800,
-  },
-  {
-    id: 'mock_3',
-    title: 'Hot Video 3',
-    thumbnail: 'https://picsum.photos/320/180?random=3',
-    externalUrl: 'https://www.redtube.com/43624751',
-    platform: 'Redtube',
-    views: 980000,
-    publishedAt: new Date(Date.now() - 1*24*60*60*1000).toISOString(),
-    duration: 900,
-  },
-  {
-    id: 'mock_4',
-    title: 'New Release 4',
-    thumbnail: 'https://picsum.photos/320/180?random=4',
-    externalUrl: 'https://www.youporn.com/watch/12345678/new_release/',
-    platform: 'YouPorn',
-    views: 1200000,
-    publishedAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
-    duration: 1500,
-  },
-  {
-    id: 'mock_5',
-    title: 'Featured Video 5',
-    thumbnail: 'https://picsum.photos/320/180?random=5',
-    externalUrl: 'https://spankbang.com/5m96b3/play/hot+video/480p',
-    platform: 'SpankBang',
-    views: 750000,
-    publishedAt: new Date(Date.now() - 5*24*60*60*1000).toISOString(),
-    duration: 1100,
-  },
-  {
-    id: 'mock_6',
-    title: 'Best Video 6',
-    thumbnail: 'https://picsum.photos/320/180?random=6',
-    externalUrl: 'https://www.pornhub.com/view_video.php?viewkey=ph5e3a1b2c4d5e6f',
-    platform: 'Pornhub',
-    views: 1800000,
-    publishedAt: new Date(Date.now() - 4*24*60*60*1000).toISOString(),
-    duration: 2000,
-  },
-  {
-    id: 'mock_7',
-    title: 'Amazing Video 7',
-    thumbnail: 'https://picsum.photos/320/180?random=7',
-    externalUrl: 'https://www.redtube.com/38574923',
-    platform: 'Redtube',
-    views: 1100000,
-    publishedAt: new Date(Date.now() - 6*24*60*60*1000).toISOString(),
-    duration: 1450,
-  },
-  {
-    id: 'mock_8',
-    title: 'Exclusive Video 8',
-    thumbnail: 'https://picsum.photos/320/180?random=8',
-    externalUrl: 'https://www.xvideos.com/video61829755/exclusive_content',
-    platform: 'XVideos',
-    views: 950000,
-    publishedAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
-    duration: 1650,
-  },
-];
-
-export const searchPornHub = async (query, page = 1) => {
+export const searchPornHub = async (query = 'trending', page = 1) => {
   try {
     const response = await axios.get('https://www.pornhub.com/webmaster/search/v3', {
       params: {
@@ -95,10 +12,10 @@ export const searchPornHub = async (query, page = 1) => {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       },
-      timeout: 5000,
+      timeout: 8000,
     });
 
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(0, 3);
+    if (!response.data.videos || response.data.videos.length === 0) return [];
 
     return response.data.videos.map(video => ({
       id: `ph_${video.video_id}`,
@@ -107,48 +24,36 @@ export const searchPornHub = async (query, page = 1) => {
       externalUrl: video.url,
       platform: 'Pornhub',
       views: parseInt(video.views) || 0,
-      publishedAt: video.publish_date,
+      publishedAt: video.publish_date || new Date().toISOString(),
       duration: parseInt(video.duration) || 0,
     }));
   } catch (error) {
     console.error('Pornhub search error:', error);
-    return MOCK_VIDEOS.slice(0, 3);
+    return [];
   }
 };
 
-export const searchXVideos = async (query, page = 1) => {
+export const searchXVideos = async (query = 'trending', page = 1) => {
   try {
-    const response = await axios.get('https://www.xvideos.com/api/videos/search', {
-      params: {
-        keyword: query,
-        page: page,
-        sort: 'relevance',
-      },
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      timeout: 5000,
-    });
-
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(1, 3);
-
-    return response.data.videos.map(video => ({
-      id: `xv_${video.id}`,
-      title: video.title,
-      thumbnail: video.image,
-      externalUrl: `https://www.xvideos.com${video.url}`,
+    // XVideos doesn't have public API, use search URL pattern
+    const searchUrl = `https://www.xvideos.com/?k=${encodeURIComponent(query)}&p=${page}`;
+    return [{
+      id: 'xv_redirect',
+      title: `Search "${query}" on XVideos`,
+      thumbnail: 'https://picsum.photos/320/180?random=xvideos',
+      externalUrl: searchUrl,
       platform: 'XVideos',
-      views: parseInt(video.views) || 0,
-      publishedAt: video.date,
-      duration: parseInt(video.duration) || 0,
-    }));
+      views: 0,
+      publishedAt: new Date().toISOString(),
+      duration: 0,
+    }];
   } catch (error) {
     console.error('XVideos search error:', error);
-    return MOCK_VIDEOS.slice(1, 3);
+    return [];
   }
 };
 
-export const searchRedtube = async (query, page = 1) => {
+export const searchRedtube = async (query = 'trending', page = 1) => {
   try {
     const response = await axios.get('https://www.redtube.com/api/videos', {
       params: {
@@ -160,10 +65,10 @@ export const searchRedtube = async (query, page = 1) => {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       },
-      timeout: 5000,
+      timeout: 8000,
     });
 
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(2, 4);
+    if (!response.data.videos || response.data.videos.length === 0) return [];
 
     return response.data.videos.map(video => ({
       id: `rt_${video.video_id}`,
@@ -172,166 +77,106 @@ export const searchRedtube = async (query, page = 1) => {
       externalUrl: video.url,
       platform: 'Redtube',
       views: parseInt(video.views) || 0,
-      publishedAt: video.created,
+      publishedAt: video.created || new Date().toISOString(),
       duration: parseInt(video.duration) || 0,
     }));
   } catch (error) {
     console.error('Redtube search error:', error);
-    return MOCK_VIDEOS.slice(2, 4);
+    return [];
   }
 };
 
-export const searchYouporn = async (query, page = 1) => {
+export const searchYouporn = async (query = 'trending', page = 1) => {
   try {
-    const response = await axios.get('https://www.youporn.com/api/search', {
-      params: {
-        query: query,
-        page: page,
-      },
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      timeout: 5000,
-    });
-
-    if (!response.data.results || response.data.results.length === 0) return MOCK_VIDEOS.slice(3, 5);
-
-    return response.data.results.map(video => ({
-      id: `yp_${video.id}`,
-      title: video.title,
-      thumbnail: video.thumbnail,
-      externalUrl: video.link,
+    const searchUrl = `https://www.youporn.com/search/?query=${encodeURIComponent(query)}&page=${page}`;
+    return [{
+      id: 'yp_redirect',
+      title: `Search "${query}" on YouPorn`,
+      thumbnail: 'https://picsum.photos/320/180?random=youporn',
+      externalUrl: searchUrl,
       platform: 'YouPorn',
-      views: parseInt(video.views) || 0,
-      publishedAt: video.publish_date,
-      duration: parseInt(video.duration) || 0,
-    }));
+      views: 0,
+      publishedAt: new Date().toISOString(),
+      duration: 0,
+    }];
   } catch (error) {
     console.error('YouPorn search error:', error);
-    return MOCK_VIDEOS.slice(3, 5);
+    return [];
   }
 };
 
-export const searchSpankbang = async (query, page = 1) => {
+export const searchSpankbang = async (query = 'trending', page = 1) => {
   try {
-    const response = await axios.get('https://spankbang.com/api/v1/videos/search', {
-      params: {
-        q: query,
-        p: page,
-      },
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      timeout: 5000,
-    });
-
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(4, 6);
-
-    return response.data.videos.map(video => ({
-      id: `sb_${video.id}`,
-      title: video.title,
-      thumbnail: video.thumb,
-      externalUrl: video.url,
+    const searchUrl = `https://spankbang.com/search?q=${encodeURIComponent(query)}&p=${page}`;
+    return [{
+      id: 'sb_redirect',
+      title: `Search "${query}" on SpankBang`,
+      thumbnail: 'https://picsum.photos/320/180?random=spankbang',
+      externalUrl: searchUrl,
       platform: 'SpankBang',
-      views: parseInt(video.views) || 0,
-      publishedAt: video.date,
-      duration: parseInt(video.duration) || 0,
-    }));
+      views: 0,
+      publishedAt: new Date().toISOString(),
+      duration: 0,
+    }];
   } catch (error) {
     console.error('SpankBang search error:', error);
-    return MOCK_VIDEOS.slice(4, 6);
+    return [];
   }
 };
 
-export const searchClippit = async (query, page = 1) => {
+export const searchClippit = async (query = 'trending', page = 1) => {
   try {
-    const response = await axios.get('https://clippit.tv/api/videos', {
-      params: {
-        search: query,
-        page: page,
-      },
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      timeout: 5000,
-    });
-
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(0, 2);
-
-    return response.data.videos.map(video => ({
-      id: `cp_${video.id}`,
-      title: video.title,
-      thumbnail: video.thumb,
-      externalUrl: video.url,
+    const searchUrl = `https://clippit.tv/search/?q=${encodeURIComponent(query)}&page=${page}`;
+    return [{
+      id: 'cp_redirect',
+      title: `Search "${query}" on Clippit`,
+      thumbnail: 'https://picsum.photos/320/180?random=clippit',
+      externalUrl: searchUrl,
       platform: 'Clippit',
-      views: parseInt(video.views) || 0,
-      publishedAt: video.date,
-      duration: parseInt(video.duration) || 0,
-    }));
+      views: 0,
+      publishedAt: new Date().toISOString(),
+      duration: 0,
+    }];
   } catch (error) {
     console.error('Clippit search error:', error);
-    return MOCK_VIDEOS.slice(0, 2);
+    return [];
   }
 };
 
-export const searchExtrathumbs = async (query, page = 1) => {
+export const searchExtrathumbs = async (query = 'trending', page = 1) => {
   try {
-    const response = await axios.get('https://www.extrathumbs.com/api/search', {
-      params: {
-        search: query,
-        page: page,
-      },
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      timeout: 5000,
-    });
-
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(1, 3);
-
-    return response.data.videos.map(video => ({
-      id: `et_${video.id}`,
-      title: video.title,
-      thumbnail: video.image,
-      externalUrl: video.url,
+    const searchUrl = `https://www.extrathumbs.com/search/?q=${encodeURIComponent(query)}&page=${page}`;
+    return [{
+      id: 'et_redirect',
+      title: `Search "${query}" on Extrathumbs`,
+      thumbnail: 'https://picsum.photos/320/180?random=extrathumbs',
+      externalUrl: searchUrl,
       platform: 'Extrathumbs',
-      views: parseInt(video.views) || 0,
-      publishedAt: video.date,
-      duration: parseInt(video.duration) || 0,
-    }));
+      views: 0,
+      publishedAt: new Date().toISOString(),
+      duration: 0,
+    }];
   } catch (error) {
     console.error('Extrathumbs search error:', error);
-    return MOCK_VIDEOS.slice(1, 3);
+    return [];
   }
 };
 
-export const searchTubepornclassic = async (query, page = 1) => {
+export const searchTubepornclassic = async (query = 'trending', page = 1) => {
   try {
-    const response = await axios.get('https://www.tubepornclassic.com/api/videos', {
-      params: {
-        search: query,
-        page: page,
-      },
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      },
-      timeout: 5000,
-    });
-
-    if (!response.data.videos || response.data.videos.length === 0) return MOCK_VIDEOS.slice(2, 4);
-
-    return response.data.videos.map(video => ({
-      id: `tpc_${video.id}`,
-      title: video.title,
-      thumbnail: video.thumb,
-      externalUrl: video.url,
+    const searchUrl = `https://www.tubepornclassic.com/search/${encodeURIComponent(query)}/${page}`;
+    return [{
+      id: 'tpc_redirect',
+      title: `Search "${query}" on TubePornClassic`,
+      thumbnail: 'https://picsum.photos/320/180?random=tubepornclassic',
+      externalUrl: searchUrl,
       platform: 'TubePornClassic',
-      views: parseInt(video.views) || 0,
-      publishedAt: video.date,
-      duration: parseInt(video.duration) || 0,
-    }));
+      views: 0,
+      publishedAt: new Date().toISOString(),
+      duration: 0,
+    }];
   } catch (error) {
     console.error('TubePornClassic search error:', error);
-    return MOCK_VIDEOS.slice(2, 4);
+    return [];
   }
 };

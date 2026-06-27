@@ -7,7 +7,23 @@ import { SITE_NAME } from '../lib/constants';
 
 export default function Watch() {
   const { query } = useRouter();
-  const { title, externalUrl, platform } = query;
+  const { title, embedCode, embedUrl, platform } = query;
+
+  const getEmbedUrl = () => {
+    // If embedUrl provided, use it directly
+    if (embedUrl) return decodeURIComponent(embedUrl);
+    
+    // If embedCode provided, construct embed URL
+    if (embedCode) {
+      const code = decodeURIComponent(embedCode);
+      if (platform === 'Pornhub') {
+        return `https://www.pornhub.com/embed/${code}`;
+      }
+    }
+    return null;
+  };
+
+  const embedUrl_ = getEmbedUrl();
 
   return (
     <>
@@ -19,19 +35,20 @@ export default function Watch() {
       <main className="w-full px-2 sm:px-4 py-6">
         <div className="w-full">
           <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4">
-            {externalUrl ? (
+            {embedUrl_ ? (
               <iframe
-                src={externalUrl}
+                src={embedUrl_}
                 width="100%"
                 height="100%"
                 frameBorder="0"
+                scrolling="no"
                 allowFullScreen
                 allow="autoplay; fullscreen"
-                style={{ border: 'none' }}
+                style={{ border: 'none', display: 'block' }}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500">
-                Video URL not available
+                Video not available
               </div>
             )}
           </div>

@@ -2,7 +2,18 @@ import Link from 'next/link';
 import { formatViews, formatDuration, timeAgo } from '../lib/utils';
 
 export default function VideoCard({ video }) {
-  const url = `/watch?id=${video.id}&title=${encodeURIComponent(video.title)}&externalUrl=${encodeURIComponent(video.externalUrl)}&platform=${video.platform}`;
+  // Extract video ID from URL for Pornhub embed
+  const getEmbedCode = () => {
+    if (video.platform === 'Pornhub' && video.externalUrl) {
+      const match = video.externalUrl.match(/viewkey=([a-zA-Z0-9]+)/);
+      return match ? match[1] : null;
+    }
+    return null;
+  };
+
+  const embedCode = getEmbedCode();
+  const url = `/watch?id=${video.id}&title=${encodeURIComponent(video.title)}&embedCode=${encodeURIComponent(embedCode || '')}&platform=${video.platform}`;
+
   return (
     <Link href={url} className="video-card block bg-[#141414] rounded-lg overflow-hidden hover:ring-1 hover:ring-[#cc0000] transition">
       <div className="relative overflow-hidden aspect-video bg-black">
