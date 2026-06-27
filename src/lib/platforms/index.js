@@ -1,34 +1,16 @@
-import { 
-  searchPornHub, 
-  searchXVideos, 
-  searchRedtube, 
-  searchYouporn, 
-  searchSpankbang,
-  searchClippit,
-  searchExtrathumbs,
-  searchTubepornclassic
-} from './pornhub';
+import { searchPornHub } from './pornhub';
 
-export const fetchVideos = async (query, page = 1) => {
+export const fetchVideos = async (query = 'trending', page = 1) => {
   try {
-    const results = await Promise.allSettled([
-      searchPornHub(query, page),
-      searchXVideos(query, page),
-      searchRedtube(query, page),
-      searchYouporn(query, page),
-      searchSpankbang(query, page),
-      searchClippit(query, page),
-      searchExtrathumbs(query, page),
-      searchTubepornclassic(query, page),
-    ]);
+    const videos = await searchPornHub(query, page);
+    
+    if (!videos || videos.length === 0) {
+      console.warn(`No videos found for query: ${query}`);
+      return [];
+    }
 
-    const allVideos = results
-      .filter(r => r.status === 'fulfilled')
-      .flatMap(r => r.value)
-      .filter(v => v && v.id);
-
-    // Shuffle results for variety
-    return allVideos.sort(() => Math.random() - 0.5);
+    // Shuffle results
+    return videos.sort(() => Math.random() - 0.5);
   } catch (error) {
     console.error('Error fetching videos:', error);
     return [];
